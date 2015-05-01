@@ -13,4 +13,3 @@ while (fileName!=''):
 preProcess.initFunc(files)
 raw_input("Pre-pass done...\n--------Press Enter to continue--------")
 assembler.initFunc(files)
-print assembler.varTable

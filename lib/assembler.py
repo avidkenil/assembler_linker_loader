@@ -43,12 +43,12 @@ def firstPass(fileList):
                         labelTable[fileName][label]=currentAddress
 
                 if 'DS' in line:
-                    var = line.split(':')[0].split(' ')[-1].lstrip().rstrip()
+                    var = line.split(':')[0].lstrip().rstrip().split(' ')[-1].lstrip().rstrip()
                     varTable[fileName][var]=currentAddress
                     varScope[fileName][var] = scopeVar(line)
                     currentAddress=currentAddress+int(line.strip('DS')[1].lstrip().rstrip())
                 if 'DB' in line:
-                    var = line.split(':')[0].split(' ')[-1].lstrip().rstrip()
+                    var = line.split(':')[0].lstrip().rstrip().split(' ')[-1].lstrip().rstrip()
                     varTable[fileName][var] = currentAddress
                     varScope[fileName][var] = scopeVar(line)
                     currentAddress = currentAddress + len(line.split(','))
@@ -96,6 +96,7 @@ def secondPass(fileList):
         tempCode = []
         for line in lines:
             line=line.lstrip().rstrip()
+
             if not line=='':
                 
                 if ':' in line:
@@ -108,8 +109,8 @@ def secondPass(fileList):
                     else:
                         print "incorrect syntex"
                         sys.exit()
-                elif 'DB' in line:
-                    line = 'DB ' + line.split('DB',1)[1]
+                if 'DB' in line:
+                    line = 'DB' + line.split('DB',1)[1]
                     line=line.lstrip().rstrip()
                     pars = line.split('DB',1)[1].split(',')                                  #contains parameters after DB
                     for par in pars:
@@ -123,8 +124,8 @@ def secondPass(fileList):
                             else :
                                 offset = 0
                             line = line.replace(par,'$'+str(varTable[fileName][par.split('+')[0].strip()]+offset))
-                elif 'DS' in line:
-                    line='DS '+line.split('DS')[1]
+                if 'DS' in line:
+                    line='DS'+line.split('DS')[1]
                     line=line.lstrip().rstrip()
                     par=line.split('DS')[1].lstrip().rstrip()
                     if par in varTable[fileName]:                       # DS code  // code: EQU 2h
