@@ -8,7 +8,7 @@ opLen={}        #LEN OF STANDARD ASSM LANGUAGE OPCODES
 labelTable={}   #DICT FOR LABELS AND THEIR ADDRESS IN PERTICULAR FILE labelTable[filename][label]=address_of_label
 varTable={}     #key var of type DS and DB value of key is address of starting memory or value of var
 varScope={}     #var and scope dictionary varScope[filename][var]=LoOCAL/GLOBAL
-
+machineCodeLen={}   #contain number of machine codes in that file
 ###########################################
 
 
@@ -43,28 +43,26 @@ def firstPass(fileList):
                         labelTable[fileName][label]=currentAddress
 
                 if 'DS' in line:
-                    var = line.split(':')[0].lstrip().rstrip()
+                    var = line.split(':')[0].split(' ')[-1].lstrip().rstrip()
                     varTable[fileName][var]=currentAddress
                     varScope[fileName][var] = scopeVar(line)
                     currentAddress=currentAddress+int(line.strip('DS')[1].lstrip().rstrip())
                 if 'DB' in line:
-                    var = line.split(':')[0].lstrip().rstrip()
+                    var = line.split(':')[0].split(' ')[-1].lstrip().rstrip()
                     varTable[fileName][var] = currentAddress
                     varScope[fileName][var] = scopeVar(line)
                     currentAddress = currentAddress + len(line.split(','))
                 if 'EQU' in line:                                           #EQU not require currentAddress=currentAddress+1 as it does not allocate memory give EQU only decimal constants
                     
-                    var = line.split(':')[0].lstrip().rstrip()
+                    var = line.split(':')[0].split(' ')[-1].lstrip().rstrip()
                     varTable[fileName][var] = line.split('EQU')[1].rstrip().lstrip()
                     varScope[fileName][var] = scopeVar(line)
-
-                else:
-                    tags = line.split(' ')
-                    for tag in tags :
-                        tag=tag.lstrip().rstrip()
-                        if tag in opLen:
-                            currentAddress = currentAddress + int(opLen[tag])
-        
+                    
+                elif not 'EXTERN' in line:
+                    opcode = line.split(' ')[0].lstrip().rstrip()
+                    if opcode in opLen:
+                        currentAddress = currentAddress + int(opLen[opcode])
+        machineCodeLen[fileName]=currentAddress
         tableFile = open('outputCode/'+fileName+'.table', 'w+')
         codeLabel = ''
         variables = ''
