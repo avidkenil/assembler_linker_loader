@@ -70,7 +70,8 @@ def replaceOpcodes(fileName):
 			##############################################
 		else:
 			code += line + '\n'
-	outFile=open(fileName.split('.')[0].split('/')[1]+'.pre', 'w')
+	print fileName
+	outFile=open('outputCode/'+fileName.split('.')[0].split('/')[-1]+'.pre', 'w')
 	code=code.replace(' DS', ': DS')
 	code=code.replace(' DB', ': DB')
 	code=code.replace('EXTERN', 'EXTERN: ')
