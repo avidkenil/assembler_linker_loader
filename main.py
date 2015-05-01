@@ -10,3 +10,4 @@ while (fileName!=''):
 	files.append(fileName)
 	fileName = raw_input('Enter the filename: ')
 
+preProcess.initFunc(files)
