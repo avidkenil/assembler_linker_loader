@@ -147,6 +147,8 @@ def replaceOpcodes(fileName):
 		temp = line.split(' ')[0]
 		if len(line.split(' ', 1))>=2:
 			arguements = line.split(' ', 1)[1].split(',')
+			if fileName == 'inputCode/sampleCode2.asm':
+				print arguements
 			i=0
 			##################### convert var[1] to var + 1 ##############################
 			for a in arguements:
@@ -155,6 +157,8 @@ def replaceOpcodes(fileName):
 				arguements[i]=a
 				i += 1
 			############################################################################
+			if fileName == 'inputCode/sampleCode2.asm':
+				print arguements
 		if temp in opcodeTable:
 			
 			currentOpcode=temp

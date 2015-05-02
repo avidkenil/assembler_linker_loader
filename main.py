@@ -1,6 +1,6 @@
 #takes input the codes and calls assembler, linker and loader to process it and generates the output codes
 
-from lib import preProcess, assembler, linker
+from lib import preProcess, assembler, linker, loader
 
 files=[]
 
@@ -14,3 +14,4 @@ preProcess.initFunc(files)
 raw_input("Pre-pass done...\n--------Press Enter to continue--------")
 assembler.initFunc(files)
 linker.initFunc(files)
+loader.initFunc(files)
