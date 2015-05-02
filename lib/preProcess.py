@@ -102,9 +102,7 @@ def replaceFunction(fileName):
 	outFile.write(code)
 	
 	outFile.close()
-	f=open('outputCode/'+fileName.split('.')[0].split('/')[-1]+'.pre', 'r')
-	print f.read()
-	f.close()
+	
 	inpFile.close()
 
 
@@ -144,21 +142,14 @@ def replaceOpcodes(fileName):
 	
 	for line in lines:
 		line=line.lstrip().rstrip().replace('\n', '').upper()
+	
+		line=line.replace('[', '+').replace(']', '')
+		
 		temp = line.split(' ')[0]
+
 		if len(line.split(' ', 1))>=2:
 			arguements = line.split(' ', 1)[1].split(',')
-			if fileName == 'inputCode/sampleCode2.asm':
-				print arguements
-			i=0
-			##################### convert var[1] to var + 1 ##############################
-			for a in arguements:
-				a=a.lstrip().rstrip()
-				a=a.replace('[', '+').replace(']', '')
-				arguements[i]=a
-				i += 1
-			############################################################################
-			if fileName == 'inputCode/sampleCode2.asm':
-				print arguements
+			
 		if temp in opcodeTable:
 			
 			currentOpcode=temp
@@ -170,10 +161,12 @@ def replaceOpcodes(fileName):
 				x=x.lstrip().rstrip()
 				currentOpcodeIns=currentOpcodeIns.replace(x, arguements[i])
 				i += 1
-			code += currentOpcodeIns+'\n'
+				code += currentOpcodeIns+'\n'
 			##############################################
+
 		else:
 			code += line + '\n'
+
 	outFile=open('outputCode/'+fileName.split('.')[0].split('/')[-1]+'.pre', 'w')
 	code=code.replace(' DS', ': DS')
 	code=code.replace(' DB', ': DB')

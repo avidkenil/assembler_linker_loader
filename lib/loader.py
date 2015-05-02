@@ -28,7 +28,6 @@ def initFunc(fileNames):
                             val1=int(val)+int(offset)
                             pat=par[1:]
                             pattern=re.compile(pat)
-                            print pattern, line
                             for m in pattern.finditer(line):
                                 if m.start()==len(line)-1:
                                     if line[m.start()-1]=='$' and line[m.start()-1]=='$':
